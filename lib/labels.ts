@@ -66,6 +66,10 @@ export function cityLabel(value: string): string {
   return CITY_LABELS[value] ?? value;
 }
 
+export function levelLabel(value: string): string {
+  return OFFER_LEVELS.find((level) => level.value === value)?.label ?? value;
+}
+
 export function levelPhrase(values: string[]): string {
   return values.map((value) => LEVEL_PHRASE[value] ?? value).join(" ou ");
 }

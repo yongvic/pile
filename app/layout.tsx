@@ -6,7 +6,7 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 
 export const metadata: Metadata = {
-  title: "Pile",
+  title: { default: "Pile", template: "%s · Pile" },
   description: "Des stages et des jobs vérifiés, pile pour ton profil, au Togo.",
 };
 
@@ -16,7 +16,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr">
       <body className={`${outfit.variable} ${fraunces.variable} min-h-dvh bg-paper font-sans text-ink antialiased`}>
-        {children}
+        <a className="skip-link" href="#contenu">
+          Aller au contenu
+        </a>
+        <div id="contenu">{children}</div>
       </body>
     </html>
   );

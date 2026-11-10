@@ -59,7 +59,7 @@ export async function saveProfileAction(_prev: ActionState, formData: FormData):
   return { message: "Encore quelques infos pour voir les offres." };
 }
 
-const accountHint = "L'aperçu local n'utilise pas de compte. Ajoute DATABASE_URL et AUTH_SECRET dans .env.local.";
+const accountHint = "Les comptes ne sont pas ouverts dans cet aperçu.";
 
 export async function signInAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
   if (isDemo()) return { error: accountHint };
@@ -90,7 +90,7 @@ export async function signOutAction(): Promise<void> {
 }
 
 export async function requestPasswordAction(_prev: ActionState): Promise<ActionState> {
-  return { message: "L'e-mail de réinitialisation n'est pas branché. Le mot de passe se choisit à l'inscription." };
+  return { message: "Le message de réinitialisation n'est pas envoyé. Le mot de passe se choisit à l'inscription." };
 }
 
 export async function markInterestedAction(id: string): Promise<{ error?: string; url?: string }> {

@@ -21,14 +21,18 @@ if (!url) {
   process.exit(0);
 }
 
-const sql = neon(url);
-const statements = readFileSync(new URL("../db/migrations/0001_init.sql", import.meta.url), "utf8")
-  .split(";")
-  .map((statement) => statement.trim())
-  .filter(Boolean);
+async function main() {
+  const sql = neon(url!);
+  const statements = readFileSync(new URL("../db/migrations/0001_init.sql", import.meta.url), "utf8")
+    .split(";")
+    .map((statement) => statement.trim())
+    .filter(Boolean);
 
-for (const statement of statements) {
-  await sql.query(statement);
+  for (const statement of statements) {
+    await sql.query(statement);
+  }
+
+  console.log("Schéma Neon à jour.");
 }
 
-console.log("Schéma Neon à jour.");
+main();

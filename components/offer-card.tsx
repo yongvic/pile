@@ -1,18 +1,51 @@
 import Link from "next/link";
 import { formatDay, paidLabel } from "@/lib/labels";
-import type { RankedOffer } from "@/lib/matching";
 
-export function OfferCard({ offer }: { offer: RankedOffer }) {
+export type PublicOffer = {
+  id: string;
+  title: string;
+  organizationName: string;
+  phrase: string;
+  paid: string;
+  deadline: string | null;
+  example?: boolean;
+};
+
+export function toPublicOffer(offer: {
+  id: string;
+  title: string;
+  organizationName: string;
+  phrase: string;
+  paid: string;
+  deadline: string | null;
+  source?: string;
+}): PublicOffer {
+  return {
+    id: offer.id,
+    title: offer.title,
+    organizationName: offer.organizationName,
+    phrase: offer.phrase,
+    paid: offer.paid,
+    deadline: offer.deadline,
+    example: offer.source === "simulation",
+  };
+}
+
+export function OfferCard({ offer }: { offer: PublicOffer }) {
   return (
-    <Link href={`/offres/${offer.id}`} className="block rounded-2xl border border-line bg-card p-4">
-      <p className="text-sm text-muted">{offer.phrase}</p>
-      <h2 className="mt-1 font-serif text-xl leading-tight">{offer.title}</h2>
-      <p className="mt-1 text-sm">{offer.organizationName}</p>
-      <div className="mt-3 flex flex-wrap gap-2 text-xs">
-        <span className="rounded-full bg-green-soft px-2 py-1 text-green">{paidLabel(offer.paid)}</span>
-        {offer.deadline && <span className="rounded-full bg-sand px-2 py-1">Limite {formatDay(offer.deadline)}</span>}
-        {offer.source === "simulation" && <span className="rounded-full bg-sand px-2 py-1">simulée</span>}
-      </div>
+    <Link href={`/offres/${offer.id}`} className="tap block border-b border-line py-3">
+      <span className="block text-base font-medium leading-snug">{offer.title}</span>
+      <span className="mt-0.5 block text-sm">{offer.organizationName}</span>
+      <span className="mt-1 block text-sm text-muted">{offer.phrase}</span>
+      <span className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+        {offer.paid === "oui" ? (
+          <span className="rounded-full bg-green-soft px-2 py-0.5 text-green">{paidLabel(offer.paid)}</span>
+        ) : (
+          <span>{paidLabel(offer.paid)}</span>
+        )}
+        {offer.deadline && <span>Limite {formatDay(offer.deadline)}</span>}
+        {offer.example && <span>Exemple</span>}
+      </span>
     </Link>
   );
 }
